@@ -80,7 +80,11 @@ module.exports.login = async (req, res) => {
       return;
     }
 
-    res.cookie("tokenUser", user.tokenUser);
+    res.cookie("tokenUser", user.tokenUser, {
+      secure: true,
+      httpOnly: false,
+      sameSite: 'None',
+    });
 
     await Cart.updateOne({
       _id: req.cookies.cartId
@@ -174,7 +178,11 @@ module.exports.otpPassword = async (req, res) => {
       email: email
     });
 
-    res.cookie("tokenUser", user.tokenUser);
+    res.cookie("tokenUser", user.tokenUser, {
+      secure: true,
+      httpOnly: false,
+      sameSite: 'None',
+    });
 
     res.json({
       code: 200,

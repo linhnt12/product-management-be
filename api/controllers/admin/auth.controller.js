@@ -37,7 +37,11 @@ module.exports.login = async (req, res) => {
     }
 
     const token = account.token;
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      secure: true,
+      httpOnly: false,
+      sameSite: 'None',
+    });
 
     res.json({
       code: 200,

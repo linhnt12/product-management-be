@@ -32,7 +32,7 @@ module.exports.index = async (req, res) => {
 
     let objectPagination = paginationhHelper({
         currentPage: 1,
-        limitItems: 4
+        limitItems: 10
       },
       req.query,
       countProducts
@@ -184,10 +184,6 @@ module.exports.create = async (req, res) => {
       req.body.positon = parseInt(req.body.positon);
     }
 
-    if (req.file) {
-      req.body.thumbnail = `uploads/${req.file.filename}`;
-    }
-
     const product = new Product(req.body);
     await product.save();
 
@@ -213,11 +209,7 @@ module.exports.edit = async (req, res) => {
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
     req.body.stock = parseInt(req.body.stock);
     req.body.position = parseInt(req.body.position);
-
-    if (req.file) {
-      req.body.thumbnail = `uploads/${req.file.filename}`;
-    }
-
+    
     await Product.updateOne({
       _id: id
     }, req.body);

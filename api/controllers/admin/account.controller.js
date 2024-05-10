@@ -43,7 +43,11 @@ module.exports.create = async (req, res) => {
       await record.save();
 
       const token = record.token;
-      res.cookie("token", token);
+      res.cookie("token", token, {
+        secure: true,
+        httpOnly: false,
+        sameSite: 'None',
+      });
 
       res.json({
         code: 200,

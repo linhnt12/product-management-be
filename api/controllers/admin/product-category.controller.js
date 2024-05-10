@@ -3,6 +3,7 @@ const ProductCategory = require("../../models/product-category.model");
 const filterStatusHelper = require("../../../helpers/filterStatus");
 const searchHelper = require("../../../helpers/search");
 const paginationhHelper = require("../../../helpers/pagination");
+const createTreeHelper = require("../../../helpers/createTree");
 
 // [GET] /admin/products-category
 module.exports.index = async (req, res) => {
@@ -31,9 +32,9 @@ module.exports.index = async (req, res) => {
     const countProductsCategory = await ProductCategory.countDocuments(find);
 
     let objectPagination = paginationhHelper({
-        currentPage: 1,
-        limitItems: 4
-      },
+      currentPage: 1,
+      limitItems: 10
+    },
       req.query,
       countProductsCategory
     );
@@ -45,7 +46,7 @@ module.exports.index = async (req, res) => {
     if (req.query.sortKey && req.query.sortValue) {
       sort[req.query.sortKey] = req.query.sortValue;
     } else {
-      sort.position = "desc";
+      sort.position = "asc";
     }
     // End Sort
 
@@ -57,7 +58,6 @@ module.exports.index = async (req, res) => {
     res.json({
       code: 200,
       productsCategory: records,
-      filterStatus: filterStatus,
       pagination: objectPagination
     })
   } catch (error) {

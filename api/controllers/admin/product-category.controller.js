@@ -52,13 +52,15 @@ module.exports.index = async (req, res) => {
 
     const records = await ProductCategory.find(find)
       .sort(sort)
-      .limit(objectPagination.limitItems)
       .skip(objectPagination.skip);
+    
+    const allCategory = await ProductCategory.find(find);
 
     res.json({
       code: 200,
       productsCategory: records,
-      pagination: objectPagination
+      pagination: objectPagination,
+      allCategory: allCategory
     })
   } catch (error) {
     res.json({
